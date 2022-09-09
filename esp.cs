@@ -1,61 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace _7d2dDev
 {
     internal class esp : MonoBehaviour
     {
-        static Camera cam;
-        private void Update()
-        {
-            if(cam == null)
-            {
-                cam = Camera.main;
-            }
-        }
-
-        private void OnGUI()
-        {
-            ESP(GameObject.FindGameObjectsWithTag("E_Enemy"), 100f, Color.red, 2);
-        }
-
-        private static void ESP(GameObject[] gameObjects, float maxDistance, Color color, float thickness)
-        {
-            foreach(GameObject gameObject in gameObjects)
-            {
-                try 
-                { 
-                    Vector3 vector = cam.WorldToScreenPoint(gameObject.transform.position);
-                    bool flag = vector.z > 0f & vector.y < (float)(Screen.width - 2);
-                    if (flag)
-                    {
-                        Bounds bounds = TransformToBounds(gameObject.transform);
-                        float distance = Vector3.Distance(bounds.center, cam.transform.position);
-                        Rect rect = BoundsToScreenRect(bounds);
-                        if(distance < maxDistance)
-                        {
-                            Render.DrawString(new Vector2(rect.x, rect.y + rect.height + 10), $"{gameObject.transform.parent.name} : {distance}",color, false);
-                            Render.DrawBoxOutline(new Vector2(rect.x, rect.y - rect.height), rect.width, rect.height * 2, color, thickness);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (main.debug) Debug.LogException(ex);
-                }
-
-            }
-        }
-
-        private static Bounds TransformToBounds(Transform t)
-        {
-            return new Bounds(t.position, t.localScale);
-        }
+        public static Camera cam;
 
         private static Rect BoundsToScreenRect(Bounds b)
         {
@@ -89,10 +39,73 @@ namespace _7d2dDev
             return result;
         }
 
+        private static void ESP(Transform t, float maxDistance, Color color, float thickness)
+        {
+            Vector3 vector = cam.WorldToScreenPoint(t.position);
+            bool flag = vector.z > 0f & vector.y < (float)(Screen.width - 2);
+            if (flag)
+            {
+                Bounds bounds = TransformToBounds(t);
+                float distance = Vector3.Distance(bounds.center, cam.transform.position);
+                Rect rect = BoundsToScreenRect(bounds);
+                if (distance < maxDistance)
+                {
+                    Render.DrawString(new Vector2(rect.x, rect.y + rect.height + 10), $"{t.parent.name} : {distance}", color, false);
+                    Render.DrawBoxOutline(new Vector2(rect.x, rect.y - rect.height), rect.width, rect.height * 2, color, thickness);
+                }
+            }
+
+            SleepFor(0.3f);
+        }
+
         private static IEnumerator SleepFor(float time)
         {
             yield return new WaitForSeconds(time);
             yield break;
+        }
+
+        private static Bounds TransformToBounds(Transform t)
+        {
+            return new Bounds(t.position, t.localScale);
+        }
+
+        private void OnGUI()
+        {
+            if (global.WorldLoaded())
+            {
+                foreach (Entity entity in global.Entities)
+                {
+                    if (entity.IsAlive())
+                    {
+                        if (global.showAnimalEsp)
+                        {
+                            if (entity is EntityAnimal)
+                            {
+                                ESP(entity.transform, 100, Color.green, 2);
+                            }
+                            if (entity is EntityEnemyAnimal)
+                            {
+                                ESP(entity.transform, 100, Color.blue, 2);
+                            }
+                        }
+                        if (global.showZombieEsp)
+                        {
+                            if (entity is EntityZombie)
+                            {
+                                ESP(entity.transform, 100, Color.red, 2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Update()
+        {
+            if (cam == null)
+            {
+                cam = Camera.main;
+            }
         }
     }
 }

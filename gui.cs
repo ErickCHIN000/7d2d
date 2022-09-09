@@ -1,27 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _7d2dDev
 {
     internal class gui : MonoBehaviour
     {
         #region Variables
+
+        private Rect rMainWindow;
+        private bool showingMainWindow = false;
         public static gui Instance { get; private set; }
-        private Rect rMainWindow = new Rect(20,20,Screen.width / 5,Screen.height / 2);
-        bool showingMainWindow = false;
-        #endregion
 
+        #endregion Variables
 
-
-        private void Update()
+        private void Start()
         {
-            if(Input.GetKeyDown(KeyCode.Insert))
+            rMainWindow.x = 20;
+            rMainWindow.y = 200;
+        }
+
+        private void MainWindow(int windowID)
+        {
+            if (global.WorldLoaded())
             {
-                showingMainWindow = !showingMainWindow;
+                GUI.DragWindow(new Rect(0, 0, 10000, 20));
+                GUILayout.Label("ESP");
+                if (GUILayout.Button($"Zombie ESP: {global.showZombieEsp}"))
+                {
+                    global.showZombieEsp = !global.showZombieEsp;
+                }
+                if (GUILayout.Button($"Animal ESP: {global.showAnimalEsp}"))
+                {
+                    global.showAnimalEsp = !global.showAnimalEsp;
+                }
+                GUILayout.Space(10);
+                GUILayout.Label("Player");
+                if (GUILayout.Button($"Inf Health: {global.infHealth}"))
+                {
+                    global.infHealth = !global.infHealth;
+                }
+                if (GUILayout.Button($"Inf Stamina: {global.infStamina}"))
+                {
+                    global.infStamina = !global.infStamina;
+                }
+                if (GUILayout.Button($"Inf Food: {global.infFood}"))
+                {
+                    global.infFood = !global.infFood;
+                }
+                if (GUILayout.Button($"Inf Water: {global.infWater}"))
+                {
+                    global.infWater = !global.infWater;
+                }
+                if (GUILayout.Button($"Dismemberment: {global.dismemberment}"))
+                {
+                    global.dismemberment = !global.dismemberment;
+                }
             }
         }
 
@@ -33,20 +65,12 @@ namespace _7d2dDev
             }
         }
 
-        private void MainWindow(int windowID)
+        private void Update()
         {
-            if (main.Instance.gameManager.World != null)
+            if (Input.GetKeyDown(KeyCode.Insert))
             {
-                GUI.DragWindow(new Rect(0, 0, 10000, 20));
-                GUILayout.Label("Example Label!!!");
-                /*foreach (GameObject enemy in main.Instance.enemies)
-                {
-                    GUILayout.Label($"Name: {enemy.name}\nPosition: {enemy.transform.position}");
-                    GUILayout.Label($"Position: {enemy.transform.position}");
-                    GUILayout.Space(20f);
-                }*/
+                showingMainWindow = !showingMainWindow;
             }
-        } // this is causing the problem
-
+        }
     }
 }

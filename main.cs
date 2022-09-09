@@ -1,17 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _7d2dDev
 {
     internal class main : MonoBehaviour
     {
         #region Variables
-        public static bool debug = false;
+
         public static main Instance { get; private set; }
-        public GameManager gameManager;
-        public EntityPlayerLocal player;
-        UILabel versionLabel;
-        #endregion
+
+        #endregion Variables
 
         private void Awake()
         {
@@ -20,41 +17,30 @@ namespace _7d2dDev
 
         private void Update()
         {
-            try
-            {
-                #region change Version
-                if (versionLabel == null)
-                {
-                    if (versionLabel = GameObject.Find("UIRoot/GUI(Menu)/NGUI Camera/AnchorCenterCenter/lblVersion").GetComponent<UILabel>())
-                    {
-                        versionLabel.text = "modded";
-                        versionLabel.color = Color.red;
-                    }
-                }
-                #endregion
+            #region basic cheats
 
-                #region check if null
-                if (gameManager == null)
-                {
-                    gameManager = GameManager.Instance;
-                }
-                if (player == null)
-                {
-                    player = gameManager.World.GetPrimaryPlayer();
-                }
-                #endregion
-
-                #region basic cheats
-                if (player)
-                {
-                    player.DebugDismembermentChance = true;
-                }
-                #endregion
-            }
-            catch (Exception Ex) 
+            if (global.player)
             {
-                if(debug) Debug.LogException(Ex);
+                global.player.DebugDismembermentChance = global.dismemberment;
+                if (global.infHealth)
+                {
+                    global.player.Stats.Health.Value = global.player.Stats.Health.Max;
+                }
+                if (global.infStamina)
+                {
+                    global.player.Stats.Stamina.Value = global.player.Stats.Health.Max;
+                }
+                if (global.infFood)
+                {
+                    global.player.Stats.Food.Value = global.player.Stats.Food.Max;
+                }
+                if (global.infWater)
+                {
+                    global.player.Stats.Water.Value = global.player.Stats.Water.Max;
+                }
             }
+
+            #endregion basic cheats
         }
     }
 }

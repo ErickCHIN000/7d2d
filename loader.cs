@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BepInEx;
+﻿using BepInEx;
+using HarmonyLib;
+using System.Reflection;
 using UnityEngine;
 
 namespace _7d2dDev
@@ -12,32 +9,43 @@ namespace _7d2dDev
     public class loader : BaseUnityPlugin
     {
         #region plugin info
+
         private const string GUID = "chichi.7d2d.dev";
         private const string NAME = "Example Plugin (ChiChi)";
         private const string VERSION = "1.0.0";
-        #endregion
+
+        #endregion plugin info
 
         #region Variables
-        private GameObject mb;
-        #endregion
+
+        public static GameObject mb; //
+        private Assembly assembly;
+        private Harmony harmony;
+
+        #endregion Variables
+
+        private void OnDestroy()
+        {
+            harmony.UnpatchSelf();
+            Destroy(mb);
+        }
+
+        private void Awake()
+        {
+            harmony = new Harmony(GUID);
+            assembly = Assembly.GetExecutingAssembly();
+            Harmony.CreateAndPatchAll(assembly);
+        }
 
         private void Start()
         {
+            harmony.PatchAll();
             mb = new GameObject(GUID);
+            mb.AddComponent<global>();
             mb.AddComponent<main>();
             mb.AddComponent<gui>();
             mb.AddComponent<esp>();
             DontDestroyOnLoad(mb);
         }
-
-        private void OnDestroy()
-        {
-            Destroy(mb);
-        }
-
-        /*private void OnGUI()
-        {
-            GUILayout.Label("ASDFGHJKL");
-        }*/
     }
 }
