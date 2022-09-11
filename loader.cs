@@ -18,9 +18,9 @@ namespace _7d2dDev
 
         #region Variables
 
-        public static GameObject mb; //
-        private Assembly assembly;
-        private Harmony harmony;
+        public static GameObject mb = new GameObject(GUID);
+        private Assembly assembly = Assembly.GetExecutingAssembly();
+        private Harmony harmony = new Harmony(GUID);
 
         #endregion Variables
 
@@ -32,20 +32,24 @@ namespace _7d2dDev
 
         private void Awake()
         {
-            harmony = new Harmony(GUID);
-            assembly = Assembly.GetExecutingAssembly();
             Harmony.CreateAndPatchAll(assembly);
         }
 
         private void Start()
         {
-            harmony.PatchAll();
-            mb = new GameObject(GUID);
-            mb.AddComponent<global>();
             mb.AddComponent<main>();
             mb.AddComponent<gui>();
             mb.AddComponent<esp>();
             DontDestroyOnLoad(mb);
+        }
+
+        private void Update()
+        {
+            if (global.IsWorldPresent())
+            {
+                global.UpdateGlobal();
+                //Debug.Log(global.Entities.ToArray());
+            }
         }
     }
 }

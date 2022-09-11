@@ -19,7 +19,7 @@ namespace _7d2dDev
         {
             #region basic cheats
 
-            if (global.player)
+            if (global.IsWorldPresent() && global.player != null)
             {
                 global.player.DebugDismembermentChance = global.dismemberment;
                 if (global.infHealth)

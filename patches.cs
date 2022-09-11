@@ -16,7 +16,14 @@ namespace _7d2dDev
             [HarmonyPrefix]
             private static bool Prefix(EntityPlayerLocal __instance)
             {
-                return false;
+                if (global.recoil)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
 
@@ -26,7 +33,14 @@ namespace _7d2dDev
             [HarmonyPrefix]
             private static bool Prefix(EntityPlayerLocal __instance)
             {
-                return false;
+                if (global.recoil)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
     }

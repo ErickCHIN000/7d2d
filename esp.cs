@@ -71,7 +71,7 @@ namespace _7d2dDev
 
         private void OnGUI()
         {
-            if (global.WorldLoaded())
+            if (global.IsWorldPresent() && global.Entities != null)
             {
                 foreach (Entity entity in global.Entities)
                 {

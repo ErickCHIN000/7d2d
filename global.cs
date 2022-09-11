@@ -3,36 +3,42 @@ using UnityEngine;
 
 namespace _7d2dDev
 {
-    internal class global : MonoBehaviour
+    internal class global
     {
-        public static global Instance { get; private set; }
-
         public static bool infStamina = true;
-        public static bool infHealth = false;
-        public static bool infFood = false;
-        public static bool infWater = false;
+        public static bool infHealth = true;
+        public static bool infFood = true;
+        public static bool infWater = true;
         public static bool dismemberment = true;
-
-        public static bool showZombieEsp = false;
-        public static bool showAnimalEsp = false;
+        public static bool recoil = true;
+        public static bool showZombieEsp = true;
+        public static bool showAnimalEsp = true;
 
         public static List<Entity> Entities;
-        public static GameManager gameManager = GameManager.Instance;
+        public static GameManager gameManager;
         public static EntityPlayerLocal player;
 
-        public static bool WorldLoaded()
+        public static bool IsWorldPresent()
         {
-            if (gameManager.World != null) return true;
-            return false;
+            if (GameManager.Instance == null)
+            {
+                return false;
+            }
+            if (GameManager.Instance.World == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
-        private void Update()
+        public static void UpdateGlobal()
         {
-            if (WorldLoaded())
-            {
-                Entities = GameManager.Instance.World.Entities.list;
-                player = gameManager.World.GetPrimaryPlayer();
-            }
+            gameManager = GameManager.Instance;
+            Entities = GameManager.Instance.World.Entities.list;
+            player = GameManager.Instance.World.GetPrimaryPlayer();
         }
     }
 }
