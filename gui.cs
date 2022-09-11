@@ -56,6 +56,10 @@ namespace _7d2dDev
             {
                 global.recoil = !global.recoil;
             }
+            if (GUILayout.Button($"Inf Ammo: {global.infAmmo}"))
+            {
+                global.infAmmo = !global.infAmmo;
+            }
         }
 
         private void OnGUI()

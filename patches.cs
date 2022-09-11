@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
-using UnityEngine;
+﻿using HarmonyLib;
 
 namespace _7d2dDev
 {
@@ -27,7 +21,7 @@ namespace _7d2dDev
             }
         }
 
-        [HarmonyPatch(typeof(EntityPlayerLocal), "shakeCamera")]
+        /*[HarmonyPatch(typeof(EntityPlayerLocal), "shakeCamera")]
         private static class EntityPlayerLocal_shakeCamera
         {
             [HarmonyPrefix]
@@ -42,6 +36,6 @@ namespace _7d2dDev
                     return true;
                 }
             }
-        }
+        }*/
     }
 }

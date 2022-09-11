@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace _7d2dDev
 {
@@ -9,14 +8,18 @@ namespace _7d2dDev
         public static bool infHealth = true;
         public static bool infFood = true;
         public static bool infWater = true;
+
         public static bool dismemberment = true;
         public static bool recoil = true;
+        public static bool infAmmo = true;
+
         public static bool showZombieEsp = true;
         public static bool showAnimalEsp = true;
 
         public static List<Entity> Entities;
         public static GameManager gameManager;
         public static EntityPlayerLocal player;
+        public static Inventory inventory;
 
         public static bool IsWorldPresent()
         {
@@ -39,6 +42,11 @@ namespace _7d2dDev
             gameManager = GameManager.Instance;
             Entities = GameManager.Instance.World.Entities.list;
             player = GameManager.Instance.World.GetPrimaryPlayer();
+            if (player != null)
+            {
+                inventory = player.inventory;
+                global.inventory.GetHoldingGun().InfiniteAmmo = infAmmo;
+            }
         }
     }
 }

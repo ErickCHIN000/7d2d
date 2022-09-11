@@ -48,7 +48,6 @@ namespace _7d2dDev
             if (global.IsWorldPresent())
             {
                 global.UpdateGlobal();
-                //Debug.Log(global.Entities.ToArray());
             }
         }
     }
