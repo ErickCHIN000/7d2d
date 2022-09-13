@@ -1,6 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
 
-namespace _7d2dDev
+namespace _7d2dCheat
 {
     internal class main : MonoBehaviour
     {
@@ -37,6 +42,11 @@ namespace _7d2dDev
                 if (global.infWater)
                 {
                     global.player.Stats.Water.Value = global.player.Stats.Water.Max;
+                }
+                global.actionAttack = global.inventory.GetHoldingGun();
+                if (global.actionAttack != null)
+                {
+                    global.actionAttack.InfiniteAmmo = global.infAmmo;
                 }
             }
 

@@ -1,9 +1,20 @@
 ﻿using HarmonyLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace _7d2dDev
+namespace _7d2dCheat
 {
     internal class patches
     {
+        /*/
+         * Patch for anti recoil
+         * Class name: EntityPlayerLocal
+         * Method name: OnFired
+        /*/
+
         [HarmonyPatch(typeof(EntityPlayerLocal), nameof(EntityPlayerLocal.OnFired))]
         private static class EntityPlayerLocal_OnFired
         {
@@ -20,22 +31,5 @@ namespace _7d2dDev
                 }
             }
         }
-
-        /*[HarmonyPatch(typeof(EntityPlayerLocal), "shakeCamera")]
-        private static class EntityPlayerLocal_shakeCamera
-        {
-            [HarmonyPrefix]
-            private static bool Prefix(EntityPlayerLocal __instance)
-            {
-                if (global.recoil)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-        }*/
     }
 }
